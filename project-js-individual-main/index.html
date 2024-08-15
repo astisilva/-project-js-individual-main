@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD-applikation med Local Storage</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <!-- Formulär för att lägga till hund -->
+    <section id="add-dog-section">
+      <h2>Lägg till ny hund</h2>
+      <form id="dog-form">
+        <label for="name">Namn:</label>
+        <input type="text" id="name" name="name" required />
+        <br />
+        <label for="breed">Ras:</label>
+        <input type="text" id="breed" name="breed" required />
+        <br />
+        <label for="age">Ålder:</label>
+        <input type="number" id="age" name="age" required />
+        <br />
+        <label for="image">Bild URL:</label>
+        <input type="url" id="image" name="image" />
+        <br />
+        <button id="submitBtn" type="submit">Lägg till hund</button>
+      </form>
+    </section>
+
+    <div id="dogs-list-container">
+      <h2>Lista över hundar</h2>
+      <div id="dogs-container"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

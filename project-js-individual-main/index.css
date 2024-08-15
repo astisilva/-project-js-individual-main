@@ -1,0 +1,102 @@
+/* Styling formulär */
+#add-dog-section {
+  max-width: 37.5rem;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 0.0625rem solid #ccc;
+  border-radius: 0.3125rem;
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+#dog-form label {
+  display: block;
+  margin-bottom: 0.1875rem;
+  font-weight: bold;
+  color: #333;
+}
+
+#dog-form input[type='text'],
+#dog-form input[type='number'],
+#dog-form input[type='url'] {
+  width: 100%;
+  padding: 0.625rem;
+  margin-bottom: 0.9375rem;
+  border: 0.0625rem solid #ddd;
+  border-radius: 0.25rem;
+  box-sizing: border-box;
+}
+
+#dog-form button {
+  background-color: #4d41d5;
+  color: white;
+  padding: 0.625rem 0.9375rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+#dog-form button:hover {
+  background-color: #3420a3;
+}
+/* Styling hund-cards */
+#dogs-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  justify-content: center;
+}
+
+.dog-card {
+  display: flex;
+  flex-direction: column;
+  max-width: 18rem;
+  padding: 1.25rem;
+  border: 0.0625rem solid #ddd;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dog-card:hover {
+  transform: translateY(-0.3rem);
+  box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.2);
+}
+
+/* Styling för hundbilden */
+.dog-card img {
+  width: 100%;
+  height: 12.5rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+.dog-card .dog-details {
+  padding: 0.625rem 0;
+}
+
+.dog-card .dog-details p {
+  margin: 0.3rem 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Styling för knappar på hundkort */
+.dog-card .dog-buttons {
+  margin-top: 0.63rem;
+}
+
+.dog-card .dog-buttons button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.3125rem 0.63rem;
+  margin-right: 0.3rem;
+  font-size: 0.87rem;
+}
+
+/* Hovringseffekt för knappar på hundkort */
+.dog-card .dog-buttons button:hover {
+  background-color: #0056b3;
+}
