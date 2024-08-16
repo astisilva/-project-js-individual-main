@@ -88,6 +88,7 @@ function capitalizeFirstLetter(string) {
 function addDog(event) {
   event.preventDefault();
   console.log('add dog');
+
   let dogName = document.getElementById('name').value.trim();
   let dogBreed = document.getElementById('breed').value.trim();
   let dogAge = document.getElementById('age').value.trim();
@@ -103,68 +104,82 @@ function addDog(event) {
   if (!dogImage) {
     dogImage = 'https://via.placeholder.com/150'; // om ingen bild laddas används denna
   }
-  newDog = {
+
+  let newDog = {
     name: dogName,
     breed: dogBreed,
     age: dogAge,
     img: dogImage,
   };
-  //Hämta det som finns på localstorage
-  let dogs = JSON.parse(localStorage.getItem('dogs') || []);
+
+  // Hämta det som finns på localStorage, använd korrekt syntax för en tom array
+  let dogs = JSON.parse(localStorage.getItem('dogs')) || [];
+
   dogs.unshift(newDog);
   localStorage.setItem('dogs', JSON.stringify(dogs));
 
-  //Återställer formuläret
+  // Återställer formuläret
   document.getElementById('dog-form').reset();
 
+  // Kontrollera om den nya hunden faktiskt lagrades
+  console.log('Current dogs in storage:', JSON.parse(localStorage.getItem('dogs')));
+
   displayDogs();
+  resetSubmitButton();
 }
 
 /******************************  Uppdatera hundar ************************************/
 function updateDog(index) {
-  //hämtar hundarna från localstorage
   let dogs = JSON.parse(localStorage.getItem('dogs')) || [];
-
   let dog = dogs[index];
 
-  // hämta hundens nuvarande data och lägg i formuläret
+  // Förifyll formuläret med existerande värden
   document.getElementById('name').value = dog.name;
   document.getElementById('breed').value = dog.breed;
   document.getElementById('age').value = dog.age;
   document.getElementById('image').value = dog.img;
 
-  // Ändra formulärknappen till att vara en "Uppdatera"-knapp
   let addBtn = document.getElementById('submitBtn');
   addBtn.textContent = 'Uppdatera hund';
 
-  // Ta bort tidigare event listener
-  addBtn.removeEventListener('click', addDog);
+  // Ta bort tidigare event listener för att undvika dubbla lyssnare
+  let newAddBtn = addBtn.cloneNode(true);
+  addBtn.replaceWith(newAddBtn);
 
-  addBtn.addEventListener('click', function updateDog(event) {
+  // Lägg till ny event listener för uppdatering
+  newAddBtn.addEventListener('click', function (event) {
     event.preventDefault();
 
     let confirmUpdate = confirm('Är du säker att du vill uppdatera hundens information');
 
     if (confirmUpdate) {
-      // Uppdatera hundens data
-      dog.name = document.getElementById('name').value.trim();
-      dog.breed = document.getElementById('breed').value.trim();
-      dog.age = document.getElementById('age').value.trim();
-      dog.img = document.getElementById('image').value.trim() || 'https://via.placeholder.com/150'; // Om ingen bild anges används denna
+      dog.name = document.getElementById('name').value.trim() || dog.name;
+      dog.breed = document.getElementById('breed').value.trim() || dog.breed;
+      dog.age = document.getElementById('age').value.trim() || dog.age;
+      dog.img = document.getElementById('image').value.trim() || dog.img;
 
-      //Spara den nya informationen om hunden i dog
       dogs[index] = dog;
 
       localStorage.setItem('dogs', JSON.stringify(dogs));
       document.getElementById('dog-form').reset();
       displayDogs();
 
-      addBtn.textContent = 'Lägg till hund';
-      addBtn.addEventListener('click', addDog);
-
-      console.log(`Redigera hund på index ${index}`);
+      // Återställ knappen och event listener för att lägga till ny hund
+      resetSubmitButton();
     }
   });
+}
+//resetar knappen
+function resetSubmitButton() {
+  let addBtn = document.getElementById('submitBtn');
+  addBtn.textContent = 'Lägg till hund';
+
+  // Ta bort tidigare event listener för att undvika dubbla lyssnare
+  let newAddBtn = addBtn.cloneNode(true);
+  addBtn.replaceWith(newAddBtn);
+
+  // Lägg till event listener för att lägga till ny hund
+  newAddBtn.addEventListener('click', addDog);
 }
 
 /* ***************** Ta bort hund ************************ */
@@ -178,13 +193,10 @@ function deleteDog(index) {
   }
 }
 
-/* startar applikationen genom att hämta hunddata, sätta upp event listeners och visa alla hundar */
-function start() {
-  fetchDogs();
-
-  let addBtn = document.getElementById('submitBtn');
-  addBtn.addEventListener('click', addDog);
-
+/* await för att säkerställa att hunddata hämtas innan den visas */
+async function start() {
+  await fetchDogs(); // Väntar tills hunddata har hämtats
+  resetSubmitButton();
   displayDogs();
 }
 
