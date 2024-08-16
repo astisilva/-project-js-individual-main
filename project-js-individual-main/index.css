@@ -1,4 +1,9 @@
-/* Styling formulär */
+
+body{
+  font-family: arial;
+}
+
+/******************* Styling formulär ******************/
 #add-dog-section {
   max-width: 37.5rem;
   margin: 2rem auto;
@@ -6,11 +11,10 @@
   border: 0.0625rem solid #ccc;
   border-radius: 0.3125rem;
   box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
+  background-color: #df9b7a;
 }
 
 #dog-form label {
-  display: block;
   margin-bottom: 0.1875rem;
   font-weight: bold;
   color: #333;
@@ -39,11 +43,15 @@
 #dog-form button:hover {
   background-color: #3420a3;
 }
-/* Styling hund-cards */
+
+h1,h2{
+  text-align: center;
+}
+/**************** Styling hund-cards ************/
 #dogs-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.25rem;
+  gap: 1.3rem;
   justify-content: center;
 }
 
@@ -52,11 +60,14 @@
   flex-direction: column;
   max-width: 18rem;
   padding: 1.25rem;
-  border: 0.0625rem solid #ddd;
-  border-radius: 0.5rem;
+  border: 0.06rem solid #ddd;
+  border-radius: 0.8rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+  background-color: #e48c4e;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+    font-family: 'Lato', sans-serif;
+  
 }
 
 .dog-card:hover {
@@ -64,12 +75,12 @@
   box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.2);
 }
 
-/* Styling för hundbilden */
+/*******Styling för hundbilderna ***********/
 .dog-card img {
-  width: 100%;
+  width: 12.5rem;
   height: 12.5rem;
   object-fit: cover;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
 }
 .dog-card .dog-details {
   padding: 0.625rem 0;
@@ -81,7 +92,7 @@
   color: #333;
 }
 
-/* Styling för knappar på hundkort */
+/* ***********************Styling för knappar på hundkort************** */
 .dog-card .dog-buttons {
   margin-top: 0.63rem;
 }

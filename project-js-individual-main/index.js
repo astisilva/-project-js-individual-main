@@ -1,4 +1,4 @@
-//Hämtar hundar och lagra de i local storage
+/* ****************************Hämtar hundar och lagra de i local storage******************************* */
 async function fetchDogs() {
   const url = `https://majazocom.github.io/Data/dogs.json`;
 
@@ -15,13 +15,11 @@ async function fetchDogs() {
       console.log('fetch dogs', data);
     }
   } catch (error) {
-    console.error('Fel vi hämtning av hundar', error);
+    console.error('Fel vid hämtning av hundar', error);
   }
 }
 
-fetchDogs();
-
-//Visa hundar på skärmen
+/************************** Visa hundar på skärmen ******************************/
 function displayDogs() {
   const dogs = JSON.parse(localStorage.getItem('dogs')) || [];
   console.log('display dogs', dogs);
@@ -33,12 +31,11 @@ function displayDogs() {
     let dogCard = document.createElement('div');
     dogCard.classList.add('dog-card');
 
-    if (dog.img) {
-      let dogImage = document.createElement('img');
-      dogImage.src = dog.img;
-      dogImage.alt = dog.name || 'Dog image';
-      dogCard.appendChild(dogImage);
-    }
+    let dogImage = document.createElement('img');
+    dogImage.src = dog.img || 'https://via.placeholder.com/150';
+    dogImage.alt = dog.name || 'Dog image';
+    dogCard.appendChild(dogImage);
+
     let dogDetails = document.createElement('div');
     dogDetails.classList.add('dog-details');
 
@@ -61,18 +58,17 @@ function displayDogs() {
     buttonsDiv.classList.add('dog-buttons');
 
     let updateButton = document.createElement('button');
-    updateButton.textContent = 'Redigera';
+    updateButton.textContent = 'Uppdatera hund';
 
     updateButton.addEventListener('click', () => {
       updateDog(index);
     });
 
     let deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Radera';
+    deleteButton.textContent = 'Ta bort hund';
 
-    // Använd addEventListener istället för onclick
     deleteButton.addEventListener('click', () => {
-      deleteDog();
+      deleteDog(index);
     });
 
     buttonsDiv.appendChild(updateButton);
@@ -83,13 +79,12 @@ function displayDogs() {
   });
 }
 
-displayDogs();
-
-//Funktion för första bokstaven blir stor
+//Funktion så att första bokstaven blir storbokstav
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
+/*********************** Lägga till hund ********************************* */
 function addDog(event) {
   event.preventDefault();
   console.log('add dog');
@@ -116,7 +111,7 @@ function addDog(event) {
   };
   //Hämta det som finns på localstorage
   let dogs = JSON.parse(localStorage.getItem('dogs') || []);
-  dogs.push(newDog);
+  dogs.unshift(newDog);
   localStorage.setItem('dogs', JSON.stringify(dogs));
 
   //Återställer formuläret
@@ -124,9 +119,6 @@ function addDog(event) {
 
   displayDogs();
 }
-
-let addBtn = document.getElementById('submitBtn');
-addBtn.addEventListener('click', addDog);
 
 /******************************  Uppdatera hundar ************************************/
 function updateDog(index) {
@@ -151,30 +143,52 @@ function updateDog(index) {
   addBtn.addEventListener('click', function updateDog(event) {
     event.preventDefault();
 
-    /*********************Lägga till en är du säker att du vill uppdatera alert***************************/
-    // Uppdatera hundens data
-    dog.name = document.getElementById('name').value.trim();
-    dog.breed = document.getElementById('breed').value.trim();
-    dog.age = document.getElementById('age').value.trim();
-    dog.img = document.getElementById('image').value.trim() || 'https://via.placeholder.com/150'; // bild om ingen bild anges
+    let confirmUpdate = confirm('Är du säker att du vill uppdatera hundens information');
 
-    //Spara den nya informationen om hunden i dog
-    dogs[index] = dog;
+    if (confirmUpdate) {
+      // Uppdatera hundens data
+      dog.name = document.getElementById('name').value.trim();
+      dog.breed = document.getElementById('breed').value.trim();
+      dog.age = document.getElementById('age').value.trim();
+      dog.img = document.getElementById('image').value.trim() || 'https://via.placeholder.com/150'; // Om ingen bild anges används denna
 
-    localStorage.setItem('dogs', JSON.stringify(dogs));
-    document.getElementById('dog-form').reset();
-    displayDogs();
+      //Spara den nya informationen om hunden i dog
+      dogs[index] = dog;
 
-    addBtn.textContent = 'Lägg till hund';
-    addBtn.addEventListener('click', addDog);
+      localStorage.setItem('dogs', JSON.stringify(dogs));
+      document.getElementById('dog-form').reset();
+      displayDogs();
 
-    console.log(`Redigera hund på index ${index}`);
+      addBtn.textContent = 'Lägg till hund';
+      addBtn.addEventListener('click', addDog);
+
+      console.log(`Redigera hund på index ${index}`);
+    }
   });
 }
 
-function update() {}
-
+/* ***************** Ta bort hund ************************ */
 function deleteDog(index) {
-  // Raderingslogik här
-  console.log(`Radera hund på index ${index}`);
+  let confirmDelete = confirm('Är du säker på att du vill ta bort hunden');
+  if (confirmDelete) {
+    let dogs = JSON.parse(localStorage.getItem('dogs') || []);
+    dogs.splice(index, 1);
+    localStorage.setItem('dogs', JSON.stringify(dogs));
+    displayDogs();
+  }
 }
+
+/* startar applikationen genom att hämta hunddata, sätta upp event listeners och visa alla hundar */
+function start() {
+  fetchDogs();
+
+  let addBtn = document.getElementById('submitBtn');
+  addBtn.addEventListener('click', addDog);
+
+  displayDogs();
+}
+
+/* Ser till att alla viktiga funktioner och eventlisteners laddas och kan börja användas */
+document.addEventListener('DOMContentLoaded', () => {
+  start();
+});
